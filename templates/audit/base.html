@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Accessibility CMS</title>
+    <!-- Simple Tailwind via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 min-h-screen">
+    <nav class="bg-blue-600 text-white px-6 py-4 flex justify-between items-center">
+        <div class="font-semibold text-xl">
+            Accessibility CMS
+        </div>
+        <div class="space-x-4 text-sm">
+            <a href="{% url 'audit:dashboard' %}" class="hover:underline">Dashboard</a>
+            <a href="{% url 'audit:pages' %}" class="hover:underline">Pages</a>
+            <a href="{% url 'audit:new_audit' %}" class="hover:underline">New Audit</a>
+            <a href="{% url 'audit:history' %}" class="hover:underline">History</a>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto py-8 px-4">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="text-center text-xs text-slate-500 py-4">
+        &copy; 2025 Accessibility CMS
+    </footer>
+</body>
+</html>
