@@ -1,9 +1,11 @@
 {% extends "audit/base.html" %}
 
+{% block title %}Pages | Accessibility CMS{% endblock %}
+
 {% block content %}
 <h1 class="text-2xl font-semibold mb-4">Pages</h1>
 
-<div class="bg-white rounded-xl shadow p-6">
+<div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
     <table class="w-full text-sm">
         <thead class="border-b">
             <tr class="text-left text-slate-500">
@@ -13,16 +15,19 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="border-b">
-                <td class="py-2">/home</td>
-                <td class="py-2">2025-11-19</td>
-                <td class="py-2">5</td>
+            {% for p in pages %}
+            <tr class="border-b last:border-0">
+                <td class="py-2">{{ p.url }}</td>
+                <td class="py-2 text-slate-500">{{ p.last_audit }}</td>
+                <td class="py-2">
+                    {% if p.issues == 0 %}
+                        <span class="text-green-600 font-medium">0</span>
+                    {% else %}
+                        <span class="text-red-600 font-medium">{{ p.issues }}</span>
+                    {% endif %}
+                </td>
             </tr>
-            <tr class="border-b">
-                <td class="py-2">/contact</td>
-                <td class="py-2">2025-11-18</td>
-                <td class="py-2">2</td>
-            </tr>
+            {% endfor %}
         </tbody>
     </table>
 </div>

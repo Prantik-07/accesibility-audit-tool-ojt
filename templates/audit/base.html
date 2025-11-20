@@ -2,29 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Accessibility CMS</title>
-    <!-- Simple Tailwind via CDN -->
+    <title>{% block title %}Accessibility CMS{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-100 min-h-screen">
-    <nav class="bg-blue-600 text-white px-6 py-4 flex justify-between items-center">
-        <div class="font-semibold text-xl">
-            Accessibility CMS
-        </div>
-        <div class="space-x-4 text-sm">
+
+    <!-- Mobile top bar -->
+    <header class="md:hidden bg-slate-900 text-slate-100 px-4 py-3 flex justify-between items-center">
+        <div class="text-sm font-semibold">Accessibility CMS</div>
+        <nav class="flex gap-3 text-xs">
             <a href="{% url 'audit:dashboard' %}" class="hover:underline">Dashboard</a>
             <a href="{% url 'audit:pages' %}" class="hover:underline">Pages</a>
-            <a href="{% url 'audit:new_audit' %}" class="hover:underline">New Audit</a>
+            <a href="{% url 'audit:new_audit' %}" class="hover:underline">New</a>
             <a href="{% url 'audit:history' %}" class="hover:underline">History</a>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
-    <main class="max-w-6xl mx-auto py-8 px-4">
-        {% block content %}{% endblock %}
-    </main>
+    <div class="flex">
+        <!-- Sidebar (desktop only) -->
+        {% include "audit/components/sidebar.html" %}
 
-    <footer class="text-center text-xs text-slate-500 py-4">
-        &copy; 2025 Accessibility CMS
-    </footer>
+        <!-- Main content -->
+        <main class="flex-1 max-w-6xl mx-auto w-full px-4 md:px-8 py-6 md:py-8">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
 </body>
 </html>
+

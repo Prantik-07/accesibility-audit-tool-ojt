@@ -1,0 +1,36 @@
+<div class="hidden md:flex md:flex-col bg-slate-900 text-slate-100 w-64 min-h-screen">
+    <div class="py-6 px-6 border-b border-slate-700">
+        <div class="text-lg font-semibold tracking-tight">Accessibility CMS</div>
+        <div class="text-xs text-slate-400 mt-1">Audit Dashboard</div>
+    </div>
+
+    <nav class="flex-1 py-4 px-3 space-y-1 text-sm">
+        <a href="{% url 'audit:dashboard' %}"
+           class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-800 {% if active_page == 'dashboard' %}bg-slate-800{% endif %}">
+            <span>🏠</span>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="{% url 'audit:pages' %}"
+           class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-800 {% if active_page == 'pages' %}bg-slate-800{% endif %}">
+            <span>📄</span>
+            <span>Pages</span>
+        </a>
+
+        <a href="{% url 'audit:new_audit' %}"
+           class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-800 {% if active_page == 'new_audit' %}bg-slate-800{% endif %}">
+            <span>🧪</span>
+            <span>New Audit</span>
+        </a>
+
+        <a href="{% url 'audit:history' %}"
+           class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-800 {% if active_page == 'history' %}bg-slate-800{% endif %}">
+            <span>📜</span>
+            <span>History</span>
+        </a>
+    </nav>
+
+    <div class="py-4 px-6 border-t border-slate-700 text-xs text-slate-400">
+        &copy; 2025 Accessibility CMS
+    </div>
+</div>
