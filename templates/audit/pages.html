@@ -14,26 +14,10 @@
     <table class="w-full text-sm">
         <thead class="border-b">
             <tr class="text-left text-slate-500">
-                <th class="py-2">URL</th>
-                <th class="py-2">Last Audit</th>
-                <th class="py-2">Issues</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for p in pages %}
-            <tr class="border-b last:border-0">
-                <td class="py-2">{{ p.url }}</td>
-                <td class="py-2 text-slate-500">{{ p.last_audit }}</td>
-                <td class="py-2">
-                    {% if p.issues == 0 %}
-                    <span class="text-green-600 font-medium">0</span>
-                    {% else %}
-                    <span class="text-red-600 font-medium">{{ p.issues }}</span>
-                    {% endif %}
                 </td>
             </tr>
             {% endfor %}
-        </tbody>
+            </tbody>
     </table>
 </div>
 {% endblock %}
