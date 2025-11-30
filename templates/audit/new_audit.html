@@ -9,17 +9,37 @@
     <form method="post">
         {% csrf_token %}
 
-        <a href="{% url 'audit:history' %}" class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">
-            Cancel
-        </a>
-</div>
-</form>
+        <div class="mb-4">
+            <label class="block text-sm font-medium mb-2">Select Page to Audit</label>
+            {{ form.page }}
+            <p class="text-xs text-slate-500 mt-1">Choose from pages you've added</p>
+        </div>
 
-<div class="mt-6 p-4 bg-blue-50 rounded border border-blue-200">
-    <p class="text-sm text-blue-800">
-        💡 <strong>Tip:</strong> Don't see your page? <a href="{% url 'audit:new_page' %}" class="underline">Add a
-            new page first</a>
-    </p>
-</div>
+        <div class="mb-4">
+            <label class="block text-sm font-medium mb-2">Audit Tool</label>
+            {{ form.tool }}
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-sm font-medium mb-2">Notes (Optional)</label>
+            {{ form.notes }}
+        </div>
+
+        <div class="flex gap-2">
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Create Audit
+            </button>
+            <a href="{% url 'audit:history' %}" class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">
+                Cancel
+            </a>
+        </div>
+    </form>
+
+    <div class="mt-6 p-4 bg-blue-50 rounded border border-blue-200">
+        <p class="text-sm text-blue-800">
+            💡 <strong>Tip:</strong> Don't see your page? <a href="{% url 'audit:new_page' %}" class="underline">Add a
+                new page first</a>
+        </p>
+    </div>
 </div>
 {% endblock %}
