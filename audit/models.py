@@ -13,13 +13,12 @@ class WebPage(models.Model):
 
 class AuditRecord(models.Model):
     TOOL_CHOICES = [
-        ("manual", "Manual"),
         ("pa11y", "pa11y"),
     ]
 
     page = models.ForeignKey(WebPage, on_delete=models.CASCADE, related_name="audits")
     run_at = models.DateTimeField(auto_now_add=True)
-    tool = models.CharField(max_length=20, choices=TOOL_CHOICES, default="manual")
+    tool = models.CharField(max_length=20, choices=TOOL_CHOICES, default="pa11y")
     issues_found = models.IntegerField()
     notes = models.TextField(blank=True)
     raw_json = models.JSONField(null=True, blank=True)
