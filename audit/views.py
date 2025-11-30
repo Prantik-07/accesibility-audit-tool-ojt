@@ -49,7 +49,9 @@ def new_audit(request):
     if request.method == "POST":
         form = AuditRecordForm(request.POST)
         if form.is_valid():
-            audit = form.save()
+            audit = form.save(commit=False)
+            audit.issues_found = 0  # Will be updated by pa11y
+            audit.save()
             # Update WebPage summary
             page = audit.page
             page.last_audit = timezone.now()
