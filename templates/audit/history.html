@@ -12,20 +12,24 @@
                 <th class="py-2">Date</th>
                 <th class="py-2">Page</th>
                 <th class="py-2">Issues</th>
+                <th class="py-2">Actions</th>
             </tr>
         </thead>
         <tbody>
-            {% for a in audits %}
-            <tr class="border-b last:border-0">
-                <td class="py-2">{{ a.date }}</td>
-                <td class="py-2">{{ a.url }}</td>
+            {% for audit in audits %}
+            <tr class="border-b last:border-0 hover:bg-slate-50">
+                <td class="py-2">{{ audit.run_at|date:"Y-m-d H:i" }}</td>
+                <td class="py-2">{{ audit.page.url }}</td>
+                <td class="py-2 text-red-600 font-medium">{{ audit.issues_found }}</td>
                 <td class="py-2">
-                    {% if a.issues == 0 %}
-                        <span class="text-green-600 font-medium">0</span>
-                    {% else %}
-                        <span class="text-red-600 font-medium">{{ a.issues }}</span>
-                    {% endif %}
+                    <a href="{% url 'audit:audit_detail' audit.id %}" class="text-blue-600 hover:underline">
+                        View Details
+                    </a>
                 </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="py-4 text-center text-slate-500">No audits yet</td>
             </tr>
             {% endfor %}
         </tbody>

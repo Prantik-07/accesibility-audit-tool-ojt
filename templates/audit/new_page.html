@@ -1,0 +1,32 @@
+{% extends "audit/base.html" %}
+
+{% block title %}Add New Page | Accessibility CMS{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-semibold mb-4">Add New Page</h1>
+
+<div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-4">
+            <label class="block text-sm font-medium mb-2">Page Name</label>
+            {{ form.name }}
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-sm font-medium mb-2">Page URL</label>
+            {{ form.url }}
+        </div>
+
+        <div class="flex gap-2">
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Add Page
+            </button>
+            <a href="{% url 'audit:pages' %}" class="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "audit/base.html" %}
+
+{% block title %}Audit Details | Accessibility CMS{% endblock %}
+
+{% block content %}
+<h1 class="text-2xl font-semibold mb-4">Audit Details</h1>
+
+<div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6 mb-6">
+    <h2 class="text-lg font-semibold mb-4">{{ audit.page.name }}</h2>
+    <div class="grid grid-cols-2 gap-4 text-sm">
+        <div>
+            <span class="text-slate-500">URL:</span>
+            <span class="font-medium">{{ audit.page.url }}</span>
+        </div>
+        <div>
+            <span class="text-slate-500">Run At:</span>
+            <span class="font-medium">{{ audit.run_at }}</span>
+        </div>
+        <div>
+            <span class="text-slate-500">Tool:</span>
+            <span class="font-medium">{{ audit.tool }}</span>
+        </div>
+        <div>
+            <span class="text-slate-500">Issues Found:</span>
+            <span class="font-medium text-red-600">{{ audit.issues_found }}</span>
+        </div>
+    </div>
+    {% if audit.notes %}
+    <div class="mt-4">
+        <span class="text-slate-500 text-sm">Notes:</span>
+        <p class="mt-1">{{ audit.notes }}</p>
+    </div>
+    {% endif %}
+</div>
+
+{% if issues %}
+<div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
+    <h2 class="text-lg font-semibold mb-4">WCAG Issues</h2>
+    <div class="space-y-4">
+        {% for issue in issues %}
+        <div class="border-l-4 border-red-500 pl-4 py-2">
+            <div class="font-medium">{{ issue.code }}</div>
+            <div class="text-sm text-slate-600">{{ issue.message }}</div>
+            {% if issue.wcag %}
+            <div class="text-xs text-slate-500 mt-1">WCAG: {{ issue.wcag }}</div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<div class="mt-4">
+    <a href="{% url 'audit:history' %}" class="text-blue-600 hover:underline">← Back to History</a>
+</div>
+{% endblock %}
