@@ -1,50 +1,38 @@
-{% extends "audit/base.html" %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Audit Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 900px; }
+    .card { border: 1px solid #e5e7eb; padding: 16px; border-radius: 8px; margin-bottom: 12px; }
+    .muted { color: #6b7280; }
+  </style>
+</head>
+<body>
+  <h1>Audit Dashboard</h1>
 
-{% block title %}Dashboard | Accessibility CMS{% endblock %}
+  <div class="card">
+    <div><strong>Total pages:</strong> {{ total_pages }}</div>
+    <div><strong>Total audits:</strong> {{ total_audits }}</div>
+    <div><strong>Total issues (sum):</strong> {{ total_issues }}</div>
+  </div>
 
-{% block content %}
-<h1 class="text-2xl font-semibold mb-4">Dashboard</h1>
+  <div class="card">
+    <h3>Latest audit</h3>
+    {% if last_audit %}
+      <div><strong>Audit ID:</strong> {{ last_audit.id }}</div>
+      <div><strong>Page:</strong> {{ last_audit.page.name }}</div>
+      <div><strong>Run at:</strong> {{ last_audit.run_at }}</div>
+      <div><strong>Issues:</strong> {{ last_audit.issues_found }}</div>
+    {% else %}
+      <p class="muted">No audits have been run yet.</p>
+    {% endif %}
+  </div>
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-    <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-4">
-        <div class="text-xs text-slate-500 uppercase tracking-wide">Total Pages</div>
-        <div class="text-2xl font-bold mt-2">{{ total_pages }}</div>
-    </div>
-    <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-4">
-        <div class="text-xs text-slate-500 uppercase tracking-wide">Issues Found</div>
-        <div class="text-2xl font-bold mt-2 text-red-600">{{ total_issues }}</div>
-    </div>
-    <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-4">
-        <div class="text-xs text-slate-500 uppercase tracking-wide">Last Audit</div>
-        <div class="text-lg font-medium mt-2">{{ last_audit }}</div>
-    </div>
-</div>
+  <a href="{% url 'audit:pages' %}">View pages</a> |
+  <a href="{% url 'audit:history' %}">View history</a>
 
-<div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
-    <h2 class="text-lg font-semibold mb-4">Recent Pages</h2>
-    <table class="w-full text-sm">
-        <thead class="border-b">
-            <tr class="text-left text-slate-500">
-                <th class="py-2">Page URL</th>
-                <th class="py-2">Last Audit</th>
-                <th class="py-2">Issues</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for p in pages %}
-            <tr class="border-b last:border-0">
-                <td class="py-2 align-middle">{{ p.url }}</td>
-                <td class="py-2 align-middle text-slate-500">{{ p.last_audit }}</td>
-                <td class="py-2 align-middle">
-                    {% if p.issues == 0 %}
-                        <span class="text-green-600 font-medium">0</span>
-                    {% else %}
-                        <span class="text-red-600 font-medium">{{ p.issues }}</span>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% endblock %}
+</body>
+</html>

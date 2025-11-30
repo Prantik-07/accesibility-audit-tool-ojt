@@ -1,34 +1,50 @@
 {% extends "audit/base.html" %}
 
-{% block title %}Pages | Accessibility CMS{% endblock %}
-
 {% block content %}
-<h1 class="text-2xl font-semibold mb-4">Pages</h1>
+<div class="flex justify-between items-center mb-4">
+    <h1 class="text-2xl font-semibold">Pages</h1>
+    <a href="{% url 'audit:new_page' %}" class="px-3 py-2 bg-blue-600 text-white rounded text-sm">
+        + Add Page
+    </a>
+</div>
 
-<div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
-    <table class="w-full text-sm">
-        <thead class="border-b">
-            <tr class="text-left text-slate-500">
-                <th class="py-2">URL</th>
-                <th class="py-2">Last Audit</th>
-                <th class="py-2">Issues</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for p in pages %}
-            <tr class="border-b last:border-0">
-                <td class="py-2">{{ p.url }}</td>
-                <td class="py-2 text-slate-500">{{ p.last_audit }}</td>
-                <td class="py-2">
-                    {% if p.issues == 0 %}
-                        <span class="text-green-600 font-medium">0</span>
-                    {% else %}
-                        <span class="text-red-600 font-medium">{{ p.issues }}</span>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="bg-white rounded-xl shadow p-6">
+    {% if pages %}
+        <table class="w-full text-sm">
+            <thead class="border-b">
+                <tr class="text-left text-slate-500">
+                    <th class="py-2">Name</th>
+                    <th class="py-2">URL</th>
+                    <th class="py-2">Last Audit</th>
+                    <th class="py-2">Issues</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for page in pages %}
+                    <tr class="border-b">
+                        <td class="py-2">{{ page.name }}</td>
+                        <td class="py-2">{{ page.url }}</td>
+                        <td class="py-2">
+                            {% if page.last_audit %}
+                                {{ page.last_audit|date:"Y-m-d H:i" }}
+                            {% else %}
+                                <span class="text-slate-400">Never</span>
+                            {% endif %}
+                        </td>
+                        <td class="py-2">
+                            {% if page.issues %}
+                                <span class="text-red-600 font-medium">{{ page.issues }}</span>
+                            {% else %}
+                                <span class="text-green-600">0</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-sm text-slate-500">No pages added yet. Click “Add Page” to get started.</p>
+    {% endif %}
 </div>
 {% endblock %}
+

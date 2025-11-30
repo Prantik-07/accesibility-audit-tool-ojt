@@ -1,22 +1,39 @@
 {% extends "audit/base.html" %}
 
-{% block title %}New Audit | Accessibility CMS{% endblock %}
-
 {% block content %}
 <h1 class="text-2xl font-semibold mb-4">New Audit</h1>
 
-<div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6 max-w-xl">
-    <form>
-        <div class="mb-4">
-            <label class="block text-sm mb-1">Page URL</label>
-            <input type="text" class="w-full border rounded px-3 py-2 text-sm" placeholder="/home">
+<div class="bg-white rounded-xl shadow p-6 max-w-xl">
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div>
+            <label class="block text-sm mb-1">Page</label>
+            {{ form.page }}
+            {{ form.page.errors }}
         </div>
-        <div class="mb-4">
+
+        <div>
+            <label class="block text-sm mb-1">Tool</label>
+            {{ form.tool }}
+            {{ form.tool.errors }}
+        </div>
+
+        <div>
+            <label class="block text-sm mb-1">Issues Found</label>
+            {{ form.issues_found }}
+            {{ form.issues_found.errors }}
+        </div>
+
+        <div>
             <label class="block text-sm mb-1">Notes</label>
-            <textarea class="w-full border rounded px-3 py-2 text-sm" rows="3"></textarea>
+            {{ form.notes }}
+            {{ form.notes.errors }}
         </div>
+
         <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded text-sm">
-            Run Audit
+            Save Audit
         </button>
     </form>
 </div>

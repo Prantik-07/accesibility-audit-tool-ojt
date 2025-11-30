@@ -1,34 +1,42 @@
 {% extends "audit/base.html" %}
 
-{% block title %}History | Accessibility CMS{% endblock %}
-
 {% block content %}
 <h1 class="text-2xl font-semibold mb-4">Audit History</h1>
 
-<div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
-    <table class="w-full text-sm">
-        <thead class="border-b">
-            <tr class="text-left text-slate-500">
-                <th class="py-2">Date</th>
-                <th class="py-2">Page</th>
-                <th class="py-2">Issues</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for a in audits %}
-            <tr class="border-b last:border-0">
-                <td class="py-2">{{ a.date }}</td>
-                <td class="py-2">{{ a.url }}</td>
-                <td class="py-2">
-                    {% if a.issues == 0 %}
-                        <span class="text-green-600 font-medium">0</span>
-                    {% else %}
-                        <span class="text-red-600 font-medium">{{ a.issues }}</span>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div class="bg-white rounded-xl shadow p-6">
+    {% if audits %}
+        <table class="w-full text-sm">
+            <thead class="border-b">
+                <tr class="text-left text-slate-500">
+                    <th class="py-2">Date</th>
+                    <th class="py-2">Page</th>
+                    <th class="py-2">Tool</th>
+                    <th class="py-2">Issues</th>
+                    <th class="py-2">Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for audit in audits %}
+                    <tr class="border-b align-top">
+                        <td class="py-2">{{ audit.run_at|date:"Y-m-d H:i" }}</td>
+                        <td class="py-2">{{ audit.page.name }} ({{ audit.page.url }})</td>
+                        <td class="py-2">{{ audit.get_tool_display }}</td>
+                        <td class="py-2">
+                            {% if audit.issues_found %}
+                                <span class="text-red-600 font-medium">{{ audit.issues_found }}</span>
+                            {% else %}
+                                <span class="text-green-600">0</span>
+                            {% endif %}
+                        </td>
+                        <td class="py-2 text-slate-600 text-xs max-w-xs">
+                            {{ audit.notes|default:"—" }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p class="text-sm text-slate-500">No audits have been recorded yet.</p>
+    {% endif %}
 </div>
 {% endblock %}

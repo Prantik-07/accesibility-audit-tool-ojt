@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Page Detail — {{ page.name }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; max-width: 900px; }
+    button { padding: 8px 12px; cursor: pointer; }
+    .audit-item { border: 1px solid #e5e5e5; padding: 12px; margin-bottom: 10px; border-radius: 6px; background: #fafafa; }
+    .status { margin-left: 10px; color: #2d3748; }
+    .muted { color: #6b7280; }
+  </style>
+</head>
+<body>
+
+  <h1>{{ page.name }}</h1>
+  <p><strong>URL:</strong> <a href="{{ page.url }}" target="_blank" rel="noopener noreferrer">{{ page.url }}</a></p>
+
+  <div>
+    <button id="runAuditBtn">Run Audit</button>
+    <span id="runStatus" class="status muted"></span>
+  </div>
+
+  <h2 style="margin-top:20px;">Recent Audits</h2>
+  <div id="audits">
+    {% if audits %}
+      {% for a in audits %}
+        <div class="audit-item" id="audit-{{ a.id }}">
+          <div><strong>Audit ID:</strong> {{ a.id }}</div>
+          <div><strong>Run at:</strong> {{ a.run_at }}</div>
+          <div><strong>Tool:</strong> {{ a.tool }}</div>
+          <div><strong>Issues found:</strong> {{ a.issues_found }}</div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No audits yet.</p>
+    {% endif %}
+  </div>
+
+  <script>
+    const btn = document.getElementById("runAuditBtn");
+    const status = document.getElementById("runStatus");
+    const auditsDiv = document.getElementById("audits");
+
+    btn.addEventListener("click", async () => {
+      btn.disabled = true;
+      status.textContent = "Running...";
+
+      try {
+        const res = await fetch(`/audit/pages/{{ page.id }}/run_audit/`, {
+          method: "POST",
+          headers: { "X-Requested-With": "XMLHttpRequest" }
+        });
+        const data = await res.json();
+        if (!res.ok) throw data;
+
+        status.textContent = `Audit ${data.audit_id} completed (${data.issues_found} issues)`;
+
+        const div = document.createElement("div");
+        div.className = "audit-item";
+        div.id = `audit-${data.audit_id}`;
+        div.innerHTML = `
+          <div><strong>Audit ID:</strong> ${data.audit_id}</div>
+          <div><strong>Run at:</strong> just now</div>
+          <div><strong>Issues found:</strong> ${data.issues_found}</div>
+        `;
+        auditsDiv.prepend(div);
+
+      } catch (err) {
+        console.error(err);
+        status.textContent = "Failed to run audit.";
+        alert("Audit failed — check server logs.");
+      } finally {
+        btn.disabled = false;
+        setTimeout(()=> status.textContent = "", 6000);
+      }
+    });
+  </script>
+
+</body>
+</html>
