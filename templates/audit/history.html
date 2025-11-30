@@ -6,17 +6,33 @@
 <h1 class="text-2xl font-semibold mb-4">Audit History</h1>
 
 <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
-    <table class="w-full text-sm">
+    <table class="w-full text-sm table-fixed">
         <thead class="border-b">
             <tr class="text-left text-slate-500">
-                <th class="py-2">Date</th>
+                <th class="py-2 w-1/6">Date</th>
+                <th class="py-2 w-1/2">Page</th>
+                <th class="py-2 w-1/6">Issues</th>
+                <th class="py-2 w-1/6">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for audit in audits %}
+            <tr class="border-b last:border-0 hover:bg-slate-50">
+                <td class="py-2">{{ audit.run_at|date:"Y-m-d H:i" }}</td>
+                <td class="py-2 break-all">{{ audit.page.url }}</td>
+                <td class="py-2 text-red-600 font-medium">{{ audit.issues_found }}</td>
+                <td class="py-2">
+                    <a href="{% url 'audit:audit_detail' audit.id %}" class="text-blue-600 hover:underline">
+                        View Details
+                    </a>
+                </td>
             </tr>
             {% empty %}
             <tr>
                 <td colspan="4" class="py-4 text-center text-slate-500">No audits yet</td>
             </tr>
             {% endfor %}
-            </tbody>
+        </tbody>
     </table>
 </div>
 {% endblock %}

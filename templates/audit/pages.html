@@ -11,13 +11,27 @@
 </div>
 
 <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
-    <table class="w-full text-sm">
+    <table class="w-full text-sm table-fixed">
         <thead class="border-b">
             <tr class="text-left text-slate-500">
-                </td>
+                <th class="py-2 w-1/4">Name</th>
+                <th class="py-2 w-1/2">URL</th>
+                <th class="py-2 w-1/4">Last Audit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for page in pages %}
+            <tr class="border-b last:border-0">
+                <td class="py-2">{{ page.name }}</td>
+                <td class="py-2 break-all">{{ page.url }}</td>
+                <td class="py-2 text-slate-500">{{ page.last_audit|date:"Y-m-d" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" class="py-4 text-center text-slate-500">No pages yet</td>
             </tr>
             {% endfor %}
-            </tbody>
+        </tbody>
     </table>
 </div>
 {% endblock %}
