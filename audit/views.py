@@ -49,14 +49,24 @@ def new_audit(request):
     if request.method == "POST":
         form = AuditRecordForm(request.POST)
         if form.is_valid():
-            audit = form.save(commit=False)
-            audit.issues_found = 0  # Will be updated by pa11y
-            audit.save()
+            page = form.cleaned_data['page']
+            notes = form.cleaned_data.get('notes', '')
+            
+            # Import here to avoid circular import
+            from .services import run_pa11y_audit
+            
+            # Run pa11y audit
+            audit = run_pa11y_audit(page)
+            
+            # Add user notes if provided
+            if notes:
+                audit.notes = notes
+                audit.save()
+            
             # Update WebPage summary
-            page = audit.page
             page.last_audit = timezone.now()
-            page.issues = audit.issues_found
             page.save()
+            
             return redirect("audit:history")
     else:
         form = AuditRecordForm()
